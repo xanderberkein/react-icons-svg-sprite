@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc --build",
+    "build": "node src/prebuild && tsc --build",
     "clean": "tsc --build --clean",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
