@@ -1,5 +1,5 @@
 {
-  "include": ["**/*.ts"],
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "isolatedModules": true,
@@ -12,7 +12,9 @@
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
+    "module": "CommonJS",
 
+    "rootDir": "src", 
     "outDir": "dist",
     "declaration": true,
     "declarationMap": true,
