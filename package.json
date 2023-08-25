@@ -7,7 +7,8 @@
   "scripts": {
     "build": "node src/prebuild && tsc --build",
     "clean": "tsc --build --clean",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node dist/postinstall"
   },
   "keywords": [],
   "author": "",
