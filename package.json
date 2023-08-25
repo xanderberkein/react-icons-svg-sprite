@@ -15,10 +15,7 @@
   "devDependencies": {
     "@types/react-dom": "^18.2.7",
     "@types/yargs": "^17.0.24",
-    "node-html-parser": "^6.1.6",
-    "react-icons": "^4.10.1",
-    "typescript": "^5.1.6",
-    "yargs": "^17.7.2"
+    "typescript": "^5.1.6"
   },
   "bin": {
     "react-icons-svg-sprite": "./dist/cli.js",
@@ -27,6 +24,9 @@
   "dependencies": {
     "@clack/prompts": "^0.7.0",
     "@types/node": "^20.5.3",
-    "react-dom": "^18.2.0"
+    "node-html-parser": "^6.1.6",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.10.1",
+    "yargs": "^17.7.2"
   }
 }
