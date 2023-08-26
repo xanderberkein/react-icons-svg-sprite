@@ -113,7 +113,7 @@ export default async function add(configPath: string, icons: string[]) {
       // check if old svg has icon already
       // if it has, overwrite
       // if not, add it to the allIcons list
-      const sameIconIdx = allIcons.findIndex(icon => icon === icon);
+      const sameIconIdx = allIcons.findIndex(ic => ic === icon);
       if (sameIconIdx >= 0) {
         svgLines.splice(sameIconIdx + 2, 1);
         replacedIcons.push(icon);
@@ -125,6 +125,9 @@ export default async function add(configPath: string, icons: string[]) {
       svgLines.push(`${svg.toString().trim()}`);
     }),
   );
+
+  svgLines.push("</defs>");
+  svgLines.push("</svg>");
 
   // types
   const typeLines = ["export type IconName = "];
@@ -165,6 +168,6 @@ export default async function add(configPath: string, icons: string[]) {
   if (replacedIcons.length) {
     console.log(`Replaced: ${replacedIcons.join(", ")}`);
   }
-  console.log(`Total: ${allIcons.length} icon in your collection`);
+  console.log(`Total: ${allIcons.length} icon(s) in your collection`);
   process.exit();
 }

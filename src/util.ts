@@ -4,7 +4,9 @@ import { type Config } from "./config.types";
 // in local environment, this package is not installed within node_modules
 const isLocalEnv = !__dirname.includes("node_modules");
 
-export const rootDir = process.cwd();
+export const rootDir = process.cwd().includes("node_modules")
+  ? path.join(process.cwd(), "../../")
+  : process.cwd();
 export const nodeModulesDir = path.join(
   __dirname,
   isLocalEnv ? "../node_modules" : "../../",

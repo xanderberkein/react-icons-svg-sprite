@@ -1,6 +1,6 @@
 {
   "name": "react-icons-svg-sprite",
-  "version": "0.0.3",
+  "version": "0.0.3-o",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -31,5 +31,12 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
     "yargs-parser": "^21.1.1"
-  }
+  },
+  "files": [
+    "/dist/**/*.js",
+    "index.d.ts",
+    "index.d.ts.map",
+    "icon.d.ts",
+    "icon.d.ts.map"
+  ]
 }
