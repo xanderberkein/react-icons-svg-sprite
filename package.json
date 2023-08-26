@@ -1,11 +1,12 @@
 {
   "name": "react-icons-svg-sprite",
-  "version": "1.0.0",
+  "version": "0.0.3",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "node src/prebuild && tsc --build",
+    "prebuild": "node src/prebuild",
+    "build": "tsc --build",
     "clean": "tsc --build --clean",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "node dist/postinstall"
@@ -15,7 +16,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/react-dom": "^18.2.7",
-    "@types/yargs": "^17.0.24",
+    "@types/yargs-parser": "^21.0.0",
     "typescript": "^5.1.6"
   },
   "bin": {
@@ -26,8 +27,9 @@
     "@clack/prompts": "^0.7.0",
     "@types/node": "^20.5.3",
     "node-html-parser": "^6.1.6",
+    "picocolors": "^1.0.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
-    "yargs": "^17.7.2"
+    "yargs-parser": "^21.1.1"
   }
 }
