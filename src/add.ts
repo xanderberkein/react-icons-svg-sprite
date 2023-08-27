@@ -11,7 +11,7 @@ import { select } from "@clack/prompts";
 import { renderToString } from "react-dom/server";
 import parse from "node-html-parser";
 
-export default async function add(configPath: string, icons: string[]) {
+export default async function add(icons: string[], configPath: string) {
   if (!icons.length) {
     console.log("No icons provided");
     process.exit();
@@ -73,6 +73,8 @@ export default async function add(configPath: string, icons: string[]) {
   }
 
   // add new icons
+  // TODO: rewrite in for await loop to make sure multiple "multiple icons"
+  // are handled correctly
   await Promise.allSettled(
     icons.map(async icon => {
       const iconLibs = iconMap[icon]; // libraries this icon is part of
@@ -82,8 +84,7 @@ export default async function add(configPath: string, icons: string[]) {
         IconComponent = require(`react-icons/${iconLibs[0]}`)[icon];
       } else {
         const selectedLib = await select({
-          message:
-            "This icon is available in 2 icon libraries. What library do you want to get the icon from?",
+          message: `Icon ${icon} is available in 2 icon libraries. Pick the library you want to use.`,
           options: iconLibs.map(lib => ({
             value: lib,
             label: ICON_LIBRARY_MAP[lib] || lib,

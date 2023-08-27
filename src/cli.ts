@@ -8,7 +8,7 @@ import remove from "./remove";
 import add from "./add";
 
 const argv = yargsParser(process.argv.slice(2), {
-  string: ["config", "lib"],
+  string: ["config", "out"],
   boolean: ["version", "help"],
   alias: {
     config: ["c"],
@@ -37,7 +37,7 @@ if (!command && argv.help) {
 }
 
 if (command === "add") {
-  add(argv.config, icons.map(String));
+  add(icons.map(String), argv.config);
 }
 
 if (command === "list") {
@@ -45,5 +45,5 @@ if (command === "list") {
 }
 
 if (command === "remove") {
-  remove(argv.config, icons.map(String));
+  remove(icons.map(String), argv.config);
 }

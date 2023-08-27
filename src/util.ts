@@ -2,11 +2,9 @@ import path from "node:path";
 import { type Config } from "./config.types";
 
 // in local environment, this package is not installed within node_modules
-const isLocalEnv = !__dirname.includes("node_modules");
+const isLocalEnv = !__dirname.includes("node_modules/react-icons-svg-sprite");
 
-export const rootDir = process.cwd().includes("node_modules")
-  ? path.join(process.cwd(), "../../")
-  : process.cwd();
+export const rootDir = process.env.INIT_CWD || process.cwd();
 export const nodeModulesDir = path.join(
   __dirname,
   isLocalEnv ? "../node_modules" : "../../",
@@ -19,6 +17,7 @@ export const defaultOut = "assets";
 
 export const symbolPattern = /<symbol[\s\S]*?id="(.*?)"[\s\S]*?<\/symbol>/g;
 
+// TODO add support for --out flag
 export function getConfig(config?: string): Config {
   const configPath = path.join(rootDir, config || "icons.config.js");
 

@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { cacheDir, getConfig, getSpritePath, symbolPattern } from "./util";
 
-export default async function remove(configPath: string, icons: string[]) {
+export default async function remove(icons: string[], configPath: string) {
   const config = getConfig(configPath);
   const spritePath = getSpritePath(config);
 
