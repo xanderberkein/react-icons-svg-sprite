@@ -1,9 +1,9 @@
 import fs from "node:fs/promises";
 import { getConfig, getSpritePath, symbolPattern } from "./util";
 
-export default async function list(configPath: string) {
-  const config = getConfig(configPath);
-  const spritePath = getSpritePath(config);
+export default async function list(args: Record<string, string>,) {
+  const config = getConfig(args.config);
+  const spritePath = getSpritePath(args.out, config);
 
   let svg: string | undefined;
   try {

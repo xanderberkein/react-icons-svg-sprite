@@ -1,27 +1,34 @@
 {
   "name": "react-icons-svg-sprite",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "prebuild": "node src/prebuild",
+    "prebuild": "tsx src/cli/prebuild",
     "build": "tsc --build",
     "clean": "tsc --build --clean",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "node dist/postinstall"
+    "postinstall": "node dist/cli/postinstall"
   },
-  "keywords": ["react-icons", "react", "icons", "svg", "sprite"],
+  "keywords": [
+    "react-icons",
+    "react",
+    "icons",
+    "svg",
+    "sprite"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/react-dom": "^18.2.7",
     "@types/yargs-parser": "^21.0.0",
+    "tsx": "^3.12.7",
     "typescript": "^5.1.6"
   },
   "bin": {
-    "react-icons-svg-sprite": "./dist/cli.js",
-    "react-icons": "./dist/cli.js"
+    "react-icons-svg-sprite": "./dist/cli/index.js",
+    "react-icons": "./dist/cli/index.js"
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",

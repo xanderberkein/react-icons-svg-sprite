@@ -65,10 +65,22 @@ The React Context for global styling provided by `react-icons` is not supporte
 
 ### Configuration
 By default, the generated SVG sprite is written to an `assets` folder at the root of your project. However, you can customize the output directory and other configurations (more planned in the future) by creating an `icons.config.js` file at the root of your project:
-
 ```js
 /** @type {import('./src/config.types.ts').Config} */
 module.exports = {
   out: "assets/icons",
 };
 ```
+
+All configuration options are also available as arguments in the CLI.
+You can also pass a custom config path to the CLI with the `--config` flag.
+
+| CLI flag | `icons.config.js` | Default |
+|---|---|---|
+| `--out`, `-o` | `out` | `assets` |
+| `--config`, `-c` | | `icons.config.js` |
+| `-- lib`, `-lib` | `lib` | |
+
+- `--out, -o`: Specifies the relative path (e.g., `assets`) or relative file (e.g., `assets/sprite.svg`) for the output.
+- `--config, -c`: Allows you to provide a custom config path. By default, if unset or unavailable, the CLI will fallback to the default config.
+- `--lib, -lib`: Sets the default library to use when an icon is available in multiple icon libraries. Use the shorthand for the library (e.g., `fi` for Feather Icons, `io5` for Ionicons 5). Refer to the [official `react-icons` library](https://react-icons.github.io/react-icons) for all available shorthands.

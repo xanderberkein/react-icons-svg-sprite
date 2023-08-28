@@ -1,5 +1,5 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
 
 const directoryPath = path.join(
   process.cwd(),
@@ -9,5 +9,5 @@ const filePath = path.join(directoryPath, "types.ts");
 
 if (!fs.existsSync(filePath)) {
   fs.mkdirSync(directoryPath, { recursive: true });
-  fs.writeFileSync(filePath, 'export type IconName = string;', 'utf-8');
+  fs.writeFileSync(filePath, "export type IconName = string;", "utf-8");
 }

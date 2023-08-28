@@ -1,10 +1,12 @@
 import fs from "node:fs/promises";
-import path from "node:path";
-import { cacheDir, getConfig, getSpritePath, symbolPattern } from "./util";
+import { getConfig, getSpritePath, symbolPattern, writeFiles } from "./util";
 
-export default async function remove(icons: string[], configPath: string) {
-  const config = getConfig(configPath);
-  const spritePath = getSpritePath(config);
+export default async function remove(
+  icons: string[],
+  args: Record<string, string>,
+) {
+  const config = getConfig(args.config);
+  const spritePath = getSpritePath(args.out, config);
 
   let svg: string | undefined;
   try {
@@ -37,15 +39,18 @@ export default async function remove(icons: string[], configPath: string) {
   const generatedSvg = svgLines.join("\n");
   const generatedType = typeLines.join("\n");
 
-  // todo createoutput path if not exists?
-  await fs.writeFile(spritePath, generatedSvg);
+  const emptyType = "export type IconName = never";
 
-  // no icons left
-  if (svgLines.length === 4) {
-    const emptyType = "export type IconName = never";
-    await fs.writeFile(path.join(cacheDir, "types.ts"), emptyType);
-  } else {
-    await fs.writeFile(path.join(cacheDir, "types.ts"), generatedType);
+  try {
+    await writeFiles({
+      svg: generatedSvg,
+      type: svgLines.length > 4 ? generatedType : emptyType,
+      spritePath,
+    });
+  } catch (e) {
+    console.error("Unable to write output files");
+    console.error(e);
+    process.exit(1);
   }
 
   if (removedItems.length) {
@@ -55,4 +60,5 @@ export default async function remove(icons: string[], configPath: string) {
   }
 
   console.log(`${svgLines.length - 4} icons remaining in your collection`);
+  process.exit(0);
 }
