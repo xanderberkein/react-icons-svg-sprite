@@ -12,19 +12,25 @@ export const nodeModulesDir = path.join(
 );
 export const reactIconsDir = path.join(nodeModulesDir, "react-icons");
 export const cacheDir = path.join(nodeModulesDir, ".react-icons-svg-sprite");
-export const packageJson = require("../../package.json");
+const rootPackageJson = require(path.join(rootDir, "/package.json"));
+
+export const isEsm = rootPackageJson.type === "module";
+const importDynamic = new Function('modulePath', 'return import(modulePath)')
 
 export const defaultOut = "assets";
 
 export const symbolPattern = /<symbol[\s\S]*?id="(.*?)"[\s\S]*?<\/symbol>/g;
 
-export function getConfig(config?: string): Config {
+export async function getConfig(config?: string): Promise<Config> {
   const configPath = path.join(rootDir, config || "icons.config.js");
 
   let rawConfig;
   try {
-    rawConfig = require(configPath) as Config;
-  } catch (e) {}
+    rawConfig = (await importDynamic(configPath)).default as Config;
+  } catch (e) {
+    console.log(e);
+  }
+
 
   return rawConfig || {};
 }
@@ -71,7 +77,9 @@ export async function writeFiles({
 
   // generate svg import
   const relativeSprite = path.relative(cacheDir, spritePath);
-  const spriteExport = `module.exports = require("${relativeSprite}");`;
+  const spriteExport = isEsm
+    ? `export default require("./${relativeSprite}");`
+    : `module.exports = require("./${relativeSprite}");`;
 
   await fs.writeFile(path.join(cacheDir, "sprite.js"), spriteExport);
 }

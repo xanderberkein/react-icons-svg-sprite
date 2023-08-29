@@ -5,7 +5,7 @@ export default async function remove(
   icons: string[],
   args: Record<string, string>,
 ) {
-  const config = getConfig(args.config);
+  const config = await getConfig(args.config);
   const spritePath = getSpritePath(args.out, config);
 
   let svg: string | undefined;

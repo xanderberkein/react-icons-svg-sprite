@@ -20,7 +20,7 @@ export default async function add(
     process.exit();
   }
 
-  const config = getConfig(args.config);
+  const config = await getConfig(args.config);
   const spritePath = getSpritePath(args.out, config);
 
   // build available icon map based on react-icons types
@@ -102,14 +102,13 @@ export default async function add(
     // if not, add it to the allIcons list
     const sameIconIdx = allIcons.findIndex(ic => ic === icon);
     if (sameIconIdx >= 0) {
-      svgLines.splice(sameIconIdx + 2, 1);
+      svgLines[sameIconIdx + 2] = `${svg.toString().trim()}`;
       replacedIcons.push(icon);
     } else {
       allIcons.push(icon);
       addedIcons.push(icon);
+      svgLines.push(`${svg.toString().trim()}`);
     }
-
-    svgLines.push(`${svg.toString().trim()}`);
   }
 
   svgLines.push("</defs>");

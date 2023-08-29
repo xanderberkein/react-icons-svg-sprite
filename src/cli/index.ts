@@ -2,7 +2,6 @@
 
 import yargsParser from "yargs-parser";
 
-import { packageJson } from "./util";
 import list from "./list";
 import remove from "./remove";
 import add from "./add";
@@ -41,7 +40,8 @@ const argv = yargsParser(process.argv.slice(2), {
 const [command, ...icons] = argv._;
 
 if (argv.version || argv.v) {
-  console.log(require(packageJson).version);
+  const packageJson = require("../../package.json");
+  console.log(packageJson.version);
   process.exit();
 }
 

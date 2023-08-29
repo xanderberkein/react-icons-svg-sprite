@@ -5,7 +5,7 @@ import fs from "node:fs/promises";
 import { cacheDir, getConfig, getSpritePath, writeFiles } from "./util";
 
 async function postInstall() {
-  const config = getConfig();
+  const config = await getConfig();
   let spritePath = getSpritePath(undefined, config);
 
   let svg: string | undefined;

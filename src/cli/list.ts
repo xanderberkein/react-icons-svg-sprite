@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import { getConfig, getSpritePath, symbolPattern } from "./util";
 
 export default async function list(args: Record<string, string>,) {
-  const config = getConfig(args.config);
+  const config = await getConfig(args.config);
   const spritePath = getSpritePath(args.out, config);
 
   let svg: string | undefined;
