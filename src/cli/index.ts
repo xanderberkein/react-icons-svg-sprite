@@ -5,6 +5,7 @@ import yargsParser from "yargs-parser";
 import list from "./list";
 import remove from "./remove";
 import add from "./add";
+import { generate } from "./generate";
 
 const helpText = `react-icons-svg-sprite
 
@@ -15,6 +16,7 @@ Commands:
   react-icons add [icons]    [options]
   react-icons list           [options]
   react-icons remove [icons] [options]
+  react-icons generate       [options]
 
 Options:
   --help, -h        Print this help message
@@ -60,4 +62,8 @@ if (command === "list") {
 
 if (command === "remove") {
   remove(icons.map(String), argv);
+}
+
+if (command === "generate") {
+  generate(argv);
 }
