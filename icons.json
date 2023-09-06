@@ -1,0 +1,6 @@
+{
+  "$schema": "./src/schema.json",
+  "icons": {
+    "ai": ["xd"]
+  }
+}

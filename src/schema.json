@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+	"icons": {
+      "type": "object",
+      "patternProperties": {
+        "^(ai|bi|bs|cg|ci|di|fa|fa6|fc|fi|gi|go|gr|hi|hi2|im|io|io5|lia|lib|lu|md|pi|ri|rx|si|sl|tb|tfi|ti|vsc|wi)$": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "defaultLibrary": {
+      "type": "string"
+    },
+    "out": {
+     	"type" : "string" 
+    }
+  },
+  "required": [
+    "icons"
+  ]
+}

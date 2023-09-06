@@ -1,6 +1,7 @@
 import path from "node:path";
 import fs from "node:fs/promises";
 import { type Config } from "../config.types";
+import { glob } from "glob";
 
 // in local environment, this package is not installed within node_modules
 const isLocalEnv = !__dirname.includes("node_modules/react-icons-svg-sprite");
@@ -15,11 +16,37 @@ export const cacheDir = path.join(nodeModulesDir, ".react-icons-svg-sprite");
 const rootPackageJson = require(path.join(rootDir, "/package.json"));
 
 export const isEsm = rootPackageJson.type === "module";
-const importDynamic = new Function('modulePath', 'return import(modulePath)')
-
-export const defaultOut = "assets";
+const importDynamic = new Function("modulePath", "return import(modulePath)");
 
 export const symbolPattern = /<symbol[\s\S]*?id="(.*?)"[\s\S]*?<\/symbol>/g;
+
+type NewConfig = {
+  icons: Record<string, string[]>;
+  default?: string;
+  out?: string;
+};
+
+export async function getConfigNew(): Promise<NewConfig> {
+  const configPath = await glob("**/icons.json", {
+    ignore: ["node_modules/**", "build/**"],
+  });
+
+  if (configPath.length === 0) {
+    // todo generate ?
+    console.log("No icons.json found");
+    process.exit();
+  }
+
+  let config;
+  try {
+    config = (await importDynamic(configPath)).default as NewConfig;
+  } catch (e) {
+    console.log(e);
+    process.exit();
+  }
+
+  return config || {};
+}
 
 export async function getConfig(config?: string): Promise<Config> {
   const configPath = path.join(rootDir, config || "icons.config.js");
@@ -31,19 +58,21 @@ export async function getConfig(config?: string): Promise<Config> {
     console.log(e);
   }
 
-
   return rawConfig || {};
 }
 
-export function getSpritePath(outArg?: string, config?: Config): string {
+export function getSpritePath(outArg?: string, config?: NewConfig): string {
   const customOut = outArg ?? config?.out;
 
-  const out = customOut?.endsWith(".svg")
-    ? customOut
-    : path.join(customOut || defaultOut, "sprite.svg");
+  if (customOut) {
+    const out = customOut?.endsWith(".svg")
+      ? customOut
+      : path.join(customOut, "sprite.svg");
 
-  const spritePath = path.join(rootDir, out);
-  return spritePath;
+    return path.join(rootDir, out);
+  }
+
+  return path.join(cacheDir, "sprite.svg");
 }
 
 export async function writeFiles({

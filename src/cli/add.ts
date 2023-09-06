@@ -2,6 +2,8 @@ import path from "node:path";
 import {
   ICON_LIBRARY_MAP,
   getConfig,
+  getConfigNew,
+  getIconsJSON,
   getSpritePath,
   reactIconsDir,
   writeFiles,
@@ -20,7 +22,7 @@ export default async function add(
     process.exit();
   }
 
-  const config = await getConfig(args.config);
+  const config = await getConfigNew();
   const spritePath = getSpritePath(args.out, config);
 
   // build available icon map based on react-icons types
@@ -61,6 +63,7 @@ export default async function add(
     // we use `react-dom` to render the component to an HTML string
     // that we can parse and modify, before stringifying it again
     let IconComponent;
+    let selectedIconLib: string = iconLibs[0];
     if (iconLibs.length === 1) {
       IconComponent = require(`react-icons/${iconLibs[0]}`)[icon];
     } else {
@@ -74,7 +77,8 @@ export default async function add(
             value: lib,
             label: ICON_LIBRARY_MAP[lib] || lib,
           })),
-        });
+        }) as string;
+        selectedIconLib = selectedLib;
         IconComponent = require(`react-icons/${selectedLib}`)[icon];
       }
     }
@@ -91,6 +95,7 @@ export default async function add(
 
     svg.tagName = "symbol";
     svg.setAttribute("id", icon);
+    svg.setAttribute("data-lib", selectedIconLib)
     svg.removeAttribute("xmlns");
     svg.removeAttribute("xmlns:xlink");
     svg.removeAttribute("version");

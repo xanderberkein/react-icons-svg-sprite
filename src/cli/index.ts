@@ -66,4 +66,5 @@ if (command === "remove") {
 
 if (command === "generate") {
   generate(argv);
+  process.exit();
 }

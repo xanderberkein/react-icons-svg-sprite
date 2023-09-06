@@ -5,7 +5,7 @@ const directoryPath = path.join(
   process.cwd(),
   "node_modules/.react-icons-svg-sprite",
 );
-const filePath = path.join(directoryPath, "types.ts");
+const filePath = path.join(directoryPath, "types.d.ts");
 
 if (!fs.existsSync(filePath)) {
   fs.mkdirSync(directoryPath, { recursive: true });
