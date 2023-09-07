@@ -1,0 +1,18 @@
+{
+  "$schema": "./src/schema.json",
+  "icons": [
+    {
+      "name": "pencil",
+      "library": "fa"
+    },
+    {
+      "name": "heart",
+      "library": "mdi"
+    },
+    {
+      "name": "arrow",
+      "library": "fa"
+    }
+  ],
+  "defaultLib": "ai"
+}

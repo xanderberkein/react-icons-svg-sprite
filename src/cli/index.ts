@@ -4,8 +4,9 @@ import yargsParser from "yargs-parser";
 
 import list from "./list";
 import remove from "./remove";
-import add from "./add";
+// import add from "./add";
 import { generate } from "./generate";
+import { add } from "./commands";
 
 const helpText = `react-icons-svg-sprite
 
@@ -53,6 +54,7 @@ if (argv.help) {
 }
 
 if (command === "add") {
+  // add(icons.map(String), argv);
   add(icons.map(String), argv);
 }
 
@@ -66,4 +68,5 @@ if (command === "remove") {
 
 if (command === "generate") {
   generate(argv);
+  process.exit();
 }

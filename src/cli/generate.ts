@@ -44,6 +44,7 @@ export async function generate(args?: Record<string, string>) {
     ];
     generatedSvg = svgLines.join("\n");
 
+    // todo don't we want this to be default path already?
     spritePath = path.join(cacheDir, "sprite.svg");
   }
 
@@ -57,6 +58,4 @@ export async function generate(args?: Record<string, string>) {
 
   console.log("Successfully generated types");
   console.log(`${icons.length} icon(s) in your collection`);
-
-  process.exit();
 }

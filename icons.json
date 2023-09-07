@@ -1,0 +1,14 @@
+{
+  "$schema": "./src/schema.json",
+  "icons": {
+    "ai": [
+      "xd",
+      "test"
+    ],
+    "this_can_be_anything": [
+      "this_too",
+      "xd"
+    ]
+  },
+  "defaultLib": "ai"
+}
