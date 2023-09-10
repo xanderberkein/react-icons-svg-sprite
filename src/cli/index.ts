@@ -6,6 +6,7 @@ import list from "./list";
 import remove from "./remove";
 import add from "./add";
 import { generate } from "./generate";
+import { init } from "./init";
 
 const helpText = `react-icons-svg-sprite
 
@@ -23,12 +24,13 @@ Options:
   --version, -v     Print the CLI version
 
   --config, -c      Path to config file
-  --out, -o         Output path / file of the generated svg
+  --out, -o         Output file of the generated svg
   --lib, -l         Default library to use when icon is available in multiple icon libraries
+  --types, -t         Output file of the generated types
 `;
 
 const argv = yargsParser(process.argv.slice(2), {
-  string: ["config", "out", "lib"],
+  string: ["config", "out", "lib", "types"],
   boolean: ["version", "help"],
   alias: {
     config: ["c"],
@@ -36,6 +38,7 @@ const argv = yargsParser(process.argv.slice(2), {
     help: ["h"],
     version: ["v"],
     lib: ["l"],
+    types: ["t"]
   },
 });
 
@@ -66,4 +69,8 @@ if (command === "remove") {
 
 if (command === "generate") {
   generate(argv);
+}
+
+if (command === "init") {
+  init();
 }

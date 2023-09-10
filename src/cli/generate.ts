@@ -1,10 +1,19 @@
 import path from "node:path";
 import fs from "node:fs/promises";
-import { cacheDir, getConfig, getSpritePath, writeFiles } from "./util";
+import {
+  cacheDir,
+  getConfig,
+  getSpritePath,
+  getTypesPath,
+  writeFiles,
+} from "./util";
+import parse from "node-html-parser";
 
 export async function generate(args?: Record<string, string>) {
   const config = await getConfig(args?.config);
-  let spritePath = getSpritePath(args?.out, config);
+  let spritePath = await getSpritePath(args?.out, config);
+  const typesPath = await getTypesPath(args?.types, config);
+  let isTypescript = false;
 
   let svg: string | undefined;
   try {
@@ -26,6 +35,12 @@ export async function generate(args?: Record<string, string>) {
     icons.sort().forEach(icon => {
       typeLines.push(`  | "${icon}"`);
     });
+
+    // check if this is a typescript project
+    const doc = parse(svg);
+
+    const parsedSvg = doc.querySelector("svg");
+    isTypescript = parsedSvg?.getAttribute("data-ts") === "true";
   } else {
     typeLines.push("export type IconName = never");
   }
@@ -37,7 +52,7 @@ export async function generate(args?: Record<string, string>) {
   // so build doesn't fail
   if (!svg) {
     const svgLines = [
-      `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">`,
+      `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-ts="${isTypescript}">`,
       `<defs>`,
       `</defs>`,
       `</svg>`,
@@ -48,7 +63,12 @@ export async function generate(args?: Record<string, string>) {
   }
 
   try {
-    await writeFiles({ svg: generatedSvg, type: generatedType, spritePath });
+    await writeFiles({
+      svg: generatedSvg,
+      type: generatedType,
+      spritePath,
+      typePath: isTypescript ? typesPath : undefined,
+    });
   } catch (e) {
     console.error("Unable to write output files");
     console.error(e);

@@ -1,7 +1,7 @@
 {
   "name": "react-icons-svg-sprite",
-  "version": "0.0.5",
-  "description": "",
+  "version": "0.0.8",
+  "description": "Get access to all the popular icon libraries from react-icons, but use SVG sprites for enhanced performance and user experience",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -33,6 +33,7 @@
   "dependencies": {
     "@clack/prompts": "^0.7.0",
     "@types/node": "^20.5.3",
+    "glob": "^10.3.4",
     "node-html-parser": "^6.1.6",
     "picocolors": "^1.0.0",
     "react-dom": "^18.2.0",
