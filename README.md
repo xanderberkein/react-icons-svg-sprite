@@ -3,10 +3,13 @@
 Get access to all the popular icon libraries from `react-icons`, but use SVG sprites for enhanced performance and user experience.
 
 ## Motivation
+
 The `react-icons` library offers React developers easy access to a wide range of popular icon libraries. However, it recommends importing SVGs as JSX, which relies on inline SVG rendering and has some drawbacks:
+
 - Inline SVGs increase the size of your HTML document, resulting in slower browser runtime and memory performance
 - For client-side rendered React applications, using inline SVGs leads to larger bundle sizes. This means longer download and parsing times for the browser
 - Including the same icon multiple times in your application results in duplicated SVGs within the bundle and the resulting HTML
+
 Fortunately, there is a solution: SVG sprites. With SVG sprites, you can include all your icons in a single large SVG sprite and reference them from other SVGs using an id, similar to how image sprites work. This approach reduces the size of your HTML, decreases the bundle size, and enables reusability of duplicate icons.
 
 ## Installation
