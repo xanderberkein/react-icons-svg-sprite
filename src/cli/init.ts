@@ -4,6 +4,21 @@ import { rootDir, writeFiles } from "./util";
 import path from "node:path";
 import { glob } from "glob";
 
+// remix
+// -> remix-app-server -> sprite.svg needs to be in `public` folder for it to work
+//    Icon needs to import from relative path
+// -> cloudflare -> sprite.svg can be anywhere
+
+// next
+// -> pages directory -> needs to be in the public folder too
+
+// does Icon also needs to be put in `.react-icons-svg-sprite`? href might need to be static or dynamic
+
+// vite
+// -> doesn't work by default, needs an import instead of a require?
+// also put it in public by default?
+
+
 export async function init() {
   intro(`react-icons-svg-sprite init`);
 

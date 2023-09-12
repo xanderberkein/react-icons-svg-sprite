@@ -3,6 +3,8 @@ import type { IconName } from ".react-icons-svg-sprite/types";
 // @ts-ignore
 import spriteHref from ".react-icons-svg-sprite/sprite";
 
+/* TEMPLATE_IMPORT */
+
 type IconProps = {
   name: IconName;
   title?: string;

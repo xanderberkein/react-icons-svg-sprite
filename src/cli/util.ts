@@ -113,7 +113,9 @@ export async function writeFiles({
     ? `export default require("./${relativeSprite}");`
     : `module.exports = require("./${relativeSprite}");`;
 
-  await fs.writeFile(path.join(cacheDir, "sprite.js"), spriteExport);
+  const tempSpriteExport = `export * from ${relativeSprite}`
+
+  await fs.writeFile(path.join(cacheDir, "sprite.js"), tempSpriteExport);
 
   if (typePath) {
     // create types folder if not exists

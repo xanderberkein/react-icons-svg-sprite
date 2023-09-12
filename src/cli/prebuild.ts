@@ -5,9 +5,14 @@ const directoryPath = path.join(
   process.cwd(),
   "node_modules/.react-icons-svg-sprite",
 );
-const filePath = path.join(directoryPath, "types.ts");
+const typesPath = path.join(directoryPath, "types.ts");
+const iconPath = path.join(directoryPath, "icon.js");
 
-if (!fs.existsSync(filePath)) {
+if (!fs.existsSync(typesPath)) {
   fs.mkdirSync(directoryPath, { recursive: true });
-  fs.writeFileSync(filePath, "export type IconName = string;", "utf-8");
+  fs.writeFileSync(typesPath, "export type IconName = string;", "utf-8");
+}
+if (!fs.existsSync(iconPath)) {
+  fs.mkdirSync(directoryPath, { recursive: true });
+  fs.writeFileSync(iconPath, "export default function Icon(){ return(null); }");
 }
