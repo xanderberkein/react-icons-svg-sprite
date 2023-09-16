@@ -2,11 +2,10 @@
 
 import yargsParser from "yargs-parser";
 
-import list from "./list";
-import remove from "./remove";
-import add from "./add";
-import { generate } from "./generate";
-import { init } from "./init";
+import list from "./list.js";
+import remove from "./remove.js";
+import add from "./add.js";
+import { generate } from "./generate.js";
 
 const helpText = `react-icons-svg-sprite
 
@@ -29,8 +28,8 @@ Options:
   --types, -t         Output file of the generated types
 `;
 
-const argv = yargsParser(process.argv.slice(2), {
-  string: ["config", "out", "lib", "types"],
+export const argv = yargsParser(process.argv.slice(2), {
+  string: ["config", "out", "lib", "types", ],
   boolean: ["version", "help"],
   alias: {
     config: ["c"],
@@ -38,7 +37,7 @@ const argv = yargsParser(process.argv.slice(2), {
     help: ["h"],
     version: ["v"],
     lib: ["l"],
-    types: ["t"]
+    types: ["t"],
   },
 });
 
@@ -69,8 +68,4 @@ if (command === "remove") {
 
 if (command === "generate") {
   generate(argv);
-}
-
-if (command === "init") {
-  init();
 }

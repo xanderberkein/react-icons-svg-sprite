@@ -1,18 +1,31 @@
 import fs from "node:fs/promises";
-import { getConfig, getSpritePath, symbolPattern, writeFiles } from "./util";
+import {
+  getConfig,
+  getSpriteDir,
+  getTypesPath,
+  symbolPattern,
+  writeFiles,
+} from "./util";
+import { glob } from "glob";
 
 export default async function remove(
   icons: string[],
   args: Record<string, string>,
 ) {
   const config = await getConfig(args.config);
-  const spritePath = await getSpritePath(args.out, config);
+  const spritePath = await getSpriteDir(args.out, config);
+  const typePath = await getTypesPath(args.out, config);
 
   let svg: string | undefined;
   try {
-    svg = await fs.readFile(spritePath, {
-      encoding: "utf8",
+    const svgPath = await glob("**/sprite.*.svg", {
+      ignore: ["node_modules"],
     });
+    if (svgPath.length) {
+      svg = await fs.readFile(svgPath[0], {
+        encoding: "utf8",
+      });
+    }
   } catch (e) {} // no file yet
 
   if (!svg) {
@@ -46,6 +59,7 @@ export default async function remove(
       svg: generatedSvg,
       type: svgLines.length > 4 ? generatedType : emptyType,
       spritePath,
+      typePath,
     });
   } catch (e) {
     console.error("Unable to write output files");

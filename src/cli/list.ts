@@ -1,15 +1,21 @@
 import fs from "node:fs/promises";
-import { getConfig, getSpritePath, symbolPattern } from "./util";
+import { getConfig, getSpriteDir, symbolPattern } from "./util";
+import { glob } from "glob";
 
 export default async function list(args: Record<string, string>,) {
   const config = await getConfig(args.config);
-  const spritePath = await getSpritePath(args.out, config);
+  const spritePath = await getSpriteDir(args.out, config);
 
   let svg: string | undefined;
   try {
-    svg = await fs.readFile(spritePath, {
-      encoding: "utf8",
+    const svgPath = await glob("**/sprite.*.svg", {
+      ignore: ["node_modules"],
     });
+    if (svgPath.length) {
+      svg = await fs.readFile(svgPath[0], {
+        encoding: "utf8",
+      });
+    }
   } catch (e) {} // no file yet
 
   if (!svg) {

@@ -1,7 +1,5 @@
 import type { SVGProps } from "react";
 import type { IconName } from ".react-icons-svg-sprite/types";
-// @ts-ignore
-import spriteHref from ".react-icons-svg-sprite/sprite";
 
 type IconProps = {
   name: IconName;
@@ -16,7 +14,7 @@ export default function Icon({ name, size, title, ...props }: IconProps) {
   };
   return (
     <svg {...dimensions} {...props}>
-      <use href={`${spriteHref}#${name}`} />
+      <use href={`/sprite.__IMAGE_HASH__.svg#${name}`} />
       {title && <title>{title}</title>}
     </svg>
   );

@@ -3,4 +3,4 @@ dist/
 
 # generated with tests
 types/
-assets/
+public/

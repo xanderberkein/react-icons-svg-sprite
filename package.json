@@ -21,7 +21,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^20.5.3",
     "@types/react-dom": "^18.2.7",
+    "@types/resolve": "^1.20.2",
     "@types/yargs-parser": "^21.0.0",
     "tsx": "^3.12.7",
     "typescript": "^5.1.6"
@@ -31,20 +33,21 @@
     "react-icons": "./dist/cli/index.js"
   },
   "dependencies": {
-    "@clack/prompts": "^0.7.0",
-    "@types/node": "^20.5.3",
+    "enquirer": "^2.4.1",
     "glob": "^10.3.4",
     "node-html-parser": "^6.1.6",
     "picocolors": "^1.0.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
+    "supports-hyperlinks": "^3.0.0",
     "yargs-parser": "^21.1.1"
   },
   "files": [
     "/dist/**/*.js",
-    "index.d.ts",
-    "index.d.ts.map",
-    "icon.d.ts",
-    "icon.d.ts.map"
+    "/dist/index.d.ts",
+    "/dist/index.d.ts.map",
+    "/dist/icon.d.ts",
+    "/dist/icon.d.ts.map",
+    "/dist/config.types.d.ts"
   ]
 }

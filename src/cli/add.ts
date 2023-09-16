@@ -2,15 +2,16 @@ import path from "node:path";
 import {
   ICON_LIBRARY_MAP,
   getConfig,
-  getSpritePath,
+  getSpriteDir,
   getTypesPath,
   reactIconsDir,
   writeFiles,
 } from "./util";
 import fs from "node:fs/promises";
-import { select } from "@clack/prompts";
 import { renderToString } from "react-dom/server";
 import parse from "node-html-parser";
+import { glob } from "glob";
+import { prompt } from "enquirer";
 
 export default async function add(
   icons: string[],
@@ -22,9 +23,8 @@ export default async function add(
   }
 
   const config = await getConfig(args.config);
-  const spritePath = await getSpritePath(args.out, config);
+  const spritePath = await getSpriteDir(args.out, config);
   const typesPath = await getTypesPath(args.types, config);
-  let isTypescript = false;
 
   // build available icon map based on react-icons types
   // e.g.: { MdArrowLeft: ["md"], HiArrowLeft: ["hi", "hi2"] }
@@ -38,9 +38,14 @@ export default async function add(
   // add old icons
   let svg: string | undefined;
   try {
-    svg = await fs.readFile(spritePath, {
-      encoding: "utf8",
+    const svgPath = await glob("**/sprite.*.svg", {
+      ignore: ["node_modules"],
     });
+    if (svgPath.length) {
+      svg = await fs.readFile(svgPath[0], {
+        encoding: "utf8",
+      });
+    }
   } catch (e) {} // no file yet
 
   if (svg) {
@@ -49,16 +54,9 @@ export default async function add(
     const pattern = /<symbol[\s\S]*?id="(.*?)"[\s\S]*?<\/symbol>/g;
 
     allIcons.push(...Array.from(svg.matchAll(pattern), match => match[1]));
-
-    // check if this is a typescript project
-    const doc = parse(svg);
-
-    const parsedSvg = doc.querySelector("svg");
-
-    isTypescript = parsedSvg?.getAttribute("data-ts") === "true";
   } else {
     svgLines.push(
-      `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" data-ts="${isTypescript}">`,
+      `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">`,
     );
     svgLines.push("<defs>");
   }
@@ -81,13 +79,17 @@ export default async function add(
         IconComponent = require(`react-icons/${defaultLib}`)[icon];
         selectedLib = defaultLib;
       } else {
-        selectedLib = (await select({
+        selectedLib = "";
+        selectedLib = await prompt({
+          type: "select",
+          name: "typeName",
           message: `Icon ${icon} is available in 2 icon libraries. Pick the library you want to use.`,
-          options: iconLibs.map(lib => ({
+          initial: 0,
+          choices: iconLibs.map(lib => ({
             value: lib,
-            label: ICON_LIBRARY_MAP[lib] || lib,
+            name: ICON_LIBRARY_MAP[lib] || lib,
           })),
-        })) as string;
+        });
         IconComponent = require(`react-icons/${selectedLib}`)[icon];
       }
     }
@@ -143,7 +145,7 @@ export default async function add(
       svg: generatedSvg,
       type: generatedType,
       spritePath,
-      typePath: isTypescript ? typesPath : undefined,
+      typePath: typesPath,
     });
   } catch (e) {
     console.error("Unable to write output files");
