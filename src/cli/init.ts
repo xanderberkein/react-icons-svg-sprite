@@ -2,7 +2,12 @@
 // indicating react-icons-svg-sprite should be initialized
 
 import path from "node:path";
-import { isTypescriptProject, rootDir } from "./util.js";
+import {
+  defaultOut,
+  isTypescriptProject,
+  rootDir,
+  writeFiles,
+} from "./util.js";
 import { prompt } from "enquirer";
 import fs from "node:fs/promises";
 
@@ -50,6 +55,28 @@ export default async function initialize() {
 
   const typePath = path.join(rootDir, responses.typeDir, responses.typeName);
   const defaultType = "export type IconName = never";
+
+  const defaultSpritePath = path.join(rootDir, defaultOut);
+  const svgLines = [];
+  svgLines.push(
+    `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">`,
+  );
+  svgLines.push("<defs>");
+  svgLines.push("</defs>");
+  svgLines.push("</svg>");
+
+  const svg = svgLines.join("\n");
+
+  try {
+    await writeFiles({
+      type: defaultType,
+      typePath,
+      svg,
+      spritePath: defaultSpritePath,
+    });
+  } catch (e) {
+    console.log(e);
+  }
 
   try {
     await fs.stat(path.dirname(typePath));

@@ -4,6 +4,7 @@ import {
   getConfig,
   getSpriteDir,
   getTypesPath,
+  isInitialized,
   reactIconsDir,
   writeFiles,
 } from "./util";
@@ -12,6 +13,7 @@ import { renderToString } from "react-dom/server";
 import parse from "node-html-parser";
 import { glob } from "glob";
 import { prompt } from "enquirer";
+import initialize from "./init";
 
 export default async function add(
   icons: string[],
@@ -20,6 +22,10 @@ export default async function add(
   if (!icons.length) {
     console.log("No icons provided");
     process.exit();
+  }
+
+  if (!(await isInitialized())) {
+    await initialize();
   }
 
   const config = await getConfig(args.config);

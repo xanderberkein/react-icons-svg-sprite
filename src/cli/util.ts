@@ -37,6 +37,12 @@ export async function getConfig(config?: string): Promise<Config> {
   return rawConfig || {};
 }
 
+export async function isInitialized() {
+  const spritePath = await glob("**/sprite.*.svg", {
+    ignore: ["node_modules"],
+  });
+  return !!spritePath.length;
+}
 export async function getSpriteDir(
   outArg?: string,
   config?: Config,
@@ -55,7 +61,17 @@ export async function getSpriteDir(
     return path.dirname(path.join(rootDir, spritePath[0]));
   }
 
-  return path.join(rootDir, defaultOut);
+  // we should actually return null here
+  // and let individual functions handle what should happen is this null
+  // e.g.: add -> init the project
+  // list -> say no svg found, needs to add an icon first
+  // delete -> same
+  // generate -> nothing should happen
+
+  // by default, put it in cache (e.g. while generating)
+  // we need to initialize to generate the first icon
+  return cacheDir;
+  // return path.join(rootDir, defaultOut);
 }
 
 export async function getTypesPath(
